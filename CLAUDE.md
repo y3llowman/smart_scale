@@ -51,6 +51,8 @@ User-facing guide (RU): `DATA_PIPELINE.md` — keep it in sync when the pipeline
   never modified) → `dataset/images/<class>/*_ov{0,1,2}.jpg` + `labels.csv` (row = object: file, source, class,
   barcode, x1..y2 on the copy, readable, checked) + `params.json`. No train/test split here — the user splits with
   sklearn grouped by `source`. Food has no boxes (whole-frame classifier; label = folder).
+- `custom_dataset/esp32/<class>/esp_*.jpg` — real ESP32-CAM shots (UXGA, flash) from
+  `scale_controller/image_handler/shoot.py`; not degraded, not read by `build_dataset.py` (real test set / sim calibration).
 - Barcodes (class `barcodes` only): value + box from zxing-cpp on the original, every photo reviewed once in CVAT
   in its native "CVAT for images 1.1" XML both ways: script writes `cvat/upload.zip` + `cvat/prelabels.xml`,
   user drops CVAT export zips into `cvat/verified/` as downloaded. Boxes go to copies via `map_box()`.
