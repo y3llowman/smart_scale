@@ -223,3 +223,7 @@ __marimo__/
 custom_dataset/dataset/
 custom_dataset/cvat/upload.zip
 custom_dataset/cvat/prelabels.xml
+
+# Генерируются export_onnx.py и train.py
+onnx_models/
+runs/

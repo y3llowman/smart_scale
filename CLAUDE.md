@@ -56,6 +56,11 @@ User-facing guide (RU): `DATA_PIPELINE.md` — keep it in sync when the pipeline
 - Barcodes (class `barcodes` only): value + box from zxing-cpp on the original, every photo reviewed once in CVAT
   in its native "CVAT for images 1.1" XML both ways: script writes `cvat/upload.zip` + `cvat/prelabels.xml`,
   user drops CVAT export zips into `cvat/verified/` as downloaded. Boxes go to copies via `map_box()`.
+- `export_onnx.py` + `bench_latency.py` — EfficientNet B0–B4 → ONNX FP32/INT8 (static QDQ), latency on 1 thread;
+  bench needs only onnxruntime+numpy (copy `onnx_models/` to the VPS). M1, 1 thread, p50 FP32/INT8 ms:
+  B0 26/10, B1 40/18, B2 47/21, B3 84/36, B4 144/62 (cheap x86 vCPU expected 2–3× slower).
+- `train.py b0 … b4 [--epochs N]` — same recipe for each (timm pretrained, AdamW+OneCycle, label smoothing),
+  split as in DATA_PIPELINE §7, extra test on real `esp32/` shots, best by val top-3 → `runs/<model>/` + `runs/results.csv`.
 - `ov2640_sim.py` — `degrade()`: blur, distortion, WB errors, low DR, vignetting, signal-dependent + chroma noise,
   SVGA/XGA/UXGA, JPEG q35–75, sometimes double JPEG; params incl. 4:3 crop logged. `map_box()` uses the same
   geometry. Calibrate ranges against real ESP32-CAM shots when the chip arrives.
